@@ -18,7 +18,8 @@ function formatDate(iso: string) {
 }
 
 export default function BlogPage() {
-  const sorted = [...blogPosts].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+  // Newest first; posts sharing a date keep their reverse listing order.
+  const sorted = [...blogPosts].reverse().sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
   return (
     <>

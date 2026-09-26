@@ -41,6 +41,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
     headline: post.title,
     description: post.metaDescription,
     datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
     author: { "@type": "Organization", name: siteConfig.name },
   };
 
@@ -59,7 +60,9 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             </h1>
             <p className="text-lg leading-relaxed text-[var(--color-text-muted)]">{post.excerpt}</p>
             <p className="text-xs text-[var(--color-text-faint)]">
-              {formatDate(post.publishedAt)} · {post.readingMinutes} min read · {siteConfig.name}
+              {formatDate(post.publishedAt)}
+              {post.updatedAt ? ` · Updated ${formatDate(post.updatedAt)}` : null} · {post.readingMinutes} min read ·{" "}
+              {siteConfig.name}
             </p>
           </Container>
         </section>
