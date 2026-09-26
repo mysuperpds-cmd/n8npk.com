@@ -77,7 +77,10 @@ export type BlogPost = {
   excerpt: string;
   metaDescription: string;
   category: string;
+  // The date the post first went live on this site. Never set earlier than that.
   publishedAt: string;
+  // Set only when the content is meaningfully revised (not for typo fixes).
+  updatedAt?: string;
   readingMinutes: number;
   sections: BlogSection[];
 };

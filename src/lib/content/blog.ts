@@ -7,7 +7,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "A plain-English introduction to n8n — what it does, how workflows are built, and why businesses use it to connect their apps.",
     metaDescription: "A beginner-friendly explanation of what n8n is, how n8n workflows work, and why businesses use it for automation.",
     category: "Getting Started",
-    publishedAt: "2026-01-12",
+    publishedAt: "2026-09-13",
     readingMinutes: 6,
     sections: [
       {
@@ -47,7 +47,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "How small and medium businesses in Pakistan can start automating repetitive work with n8n, without a big technical investment.",
     metaDescription: "A beginner's guide to n8n automation for Pakistani businesses — what to automate first and how to get started.",
     category: "Getting Started",
-    publishedAt: "2026-01-19",
+    publishedAt: "2026-09-13",
     readingMinutes: 7,
     sections: [
       {
@@ -85,7 +85,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "A practical framework for identifying which of your repetitive tasks are worth automating first.",
     metaDescription: "Learn how to identify and automate repetitive business tasks with n8n, using a simple impact-versus-effort framework.",
     category: "Strategy",
-    publishedAt: "2026-01-26",
+    publishedAt: "2026-09-13",
     readingMinutes: 6,
     sections: [
       {
@@ -121,7 +121,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "How n8n compares to simpler no-code automation tools when it comes to flexibility, complexity and control.",
     metaDescription: "A comparison of n8n against traditional no-code automation tools, covering flexibility, complexity and hosting options.",
     category: "Strategy",
-    publishedAt: "2026-02-02",
+    publishedAt: "2026-09-13",
     readingMinutes: 5,
     sections: [
       {
@@ -157,7 +157,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "What it actually takes to automate WhatsApp messaging for notifications, reminders and customer support.",
     metaDescription: "How to connect WhatsApp with business workflows using the WhatsApp Business Platform and n8n automation.",
     category: "WhatsApp",
-    publishedAt: "2026-02-09",
+    publishedAt: "2026-09-13",
     readingMinutes: 6,
     sections: [
       {
@@ -193,7 +193,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "The most common WooCommerce processes worth automating, from order confirmation to inventory syncing.",
     metaDescription: "A practical guide to automating WooCommerce stores with n8n, covering orders, inventory and customer notifications.",
     category: "E-commerce",
-    publishedAt: "2026-02-16",
+    publishedAt: "2026-09-13",
     readingMinutes: 6,
     sections: [
       {
@@ -228,7 +228,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "How combining n8n with AI models lets you automate tasks that require judgment, not just fixed rules.",
     metaDescription: "How to combine n8n with AI models for automation that requires judgment — customer support, lead scoring and document processing.",
     category: "AI",
-    publishedAt: "2026-02-23",
+    publishedAt: "2026-09-13",
     readingMinutes: 7,
     sections: [
       {
@@ -264,7 +264,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "A step-by-step look at building a lead management automation that captures, qualifies and routes leads without manual work.",
     metaDescription: "A step-by-step guide to automating lead management — capture, qualification and routing — using n8n.",
     category: "Sales",
-    publishedAt: "2026-03-02",
+    publishedAt: "2026-09-13",
     readingMinutes: 6,
     sections: [
       {
@@ -299,7 +299,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Real-world workflow examples small businesses can use as a starting point for their own automation.",
     metaDescription: "Practical n8n workflow examples for small businesses, from order notifications to lead capture and reporting.",
     category: "Examples",
-    publishedAt: "2026-03-09",
+    publishedAt: "2026-09-13",
     readingMinutes: 5,
     sections: [
       {
@@ -329,7 +329,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "What an AI agent actually is in the context of n8n, and how it differs from a simple AI-powered step.",
     metaDescription: "An explanation of how AI agents work inside n8n workflows, and how they differ from simple single-step AI automation.",
     category: "AI",
-    publishedAt: "2026-03-16",
+    publishedAt: "2026-09-13",
     readingMinutes: 6,
     sections: [
       {
