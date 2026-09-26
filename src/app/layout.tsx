@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Plus_Jakarta_Sans, Sora } from "next/font/google";
+import { LeadAttributionTracker } from "@/components/forms/lead-form-parts";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { siteConfig } from "@/lib/site-config";
@@ -102,6 +103,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <LeadAttributionTracker />
         <Navbar />
         <main id="main-content" className="flex-1">
           {children}

@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { HoneypotField, SendFailure } from "@/components/forms/lead-form-parts";
 import { industries } from "@/lib/content/industries";
+import { submitLead, trackLead } from "@/lib/leads/client";
 
 const budgetRanges = [
   "Not sure yet",
@@ -12,10 +14,15 @@ const budgetRanges = [
 ];
 
 export function RequestAutomationForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "sent" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "sent" | "error" | "failed">("idle");
   const [error, setError] = useState<string | null>(null);
+  const startedAt = useRef(0);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -36,11 +43,15 @@ export function RequestAutomationForm() {
 
     setError(null);
     setStatus("submitting");
-    // Placeholder submit — ready to be wired to an n8n webhook via N8N_LEAD_WEBHOOK_URL.
-    window.setTimeout(() => {
+    const result = await submitLead("request-automation", form, startedAt.current);
+    if (result.ok) {
+      trackLead("request-automation");
       setStatus("sent");
       form.reset();
-    }, 700);
+      return;
+    }
+    setError(result.error);
+    setStatus(result.fieldErrors ? "error" : "failed");
   }
 
   if (status === "sent") {
@@ -56,8 +67,10 @@ export function RequestAutomationForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
-      {error ? (
+    <form onSubmit={handleSubmit} className="relative flex flex-col gap-6" noValidate>
+      <HoneypotField />
+      {status === "failed" && error ? <SendFailure message={error} /> : null}
+      {status === "error" && error ? (
         <p role="alert" className="rounded-xl border border-[var(--color-danger)]/40 bg-[rgba(242,99,92,0.08)] p-3 text-sm text-[var(--color-danger)]">
           {error}
         </p>

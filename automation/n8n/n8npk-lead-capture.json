@@ -1,0 +1,178 @@
+{
+  "name": "N8NPK website lead capture",
+  "nodes": [
+    {
+      "id": "a1",
+      "name": "Website lead webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "n8npk-lead",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "n8npk-lead",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "N8NPK website secret"
+        }
+      }
+    },
+    {
+      "id": "a2",
+      "name": "Prepare row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// The website sends one lead per request; its fields become the sheet columns.\nreturn [{ json: $input.first().json.body }];"
+      }
+    },
+    {
+      "id": "a3",
+      "name": "Save to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        480,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "id": "a4",
+      "name": "Confirm saved",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: true, leadId: $('Prepare row').item.json.leadId } }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "a5",
+      "name": "WhatsApp alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v21.0/REPLACE_WITH_PHONE_NUMBER_ID/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  messaging_product: \"whatsapp\",\n  to: \"REPLACE_WITH_YOUR_WHATSAPP_NUMBER_E164_NO_PLUS\",\n  type: \"template\",\n  template: {\n    name: \"new_lead_alert\",\n    language: { code: \"en\" },\n    components: [{\n      type: \"body\",\n      parameters: [\n        $('Prepare row').item.json.formType,\n        $('Prepare row').item.json.name,\n        $('Prepare row').item.json.phone,\n        $('Prepare row').item.json.email,\n        String($('Prepare row').item.json.message || \"\").replace(/\\s+/g, \" \").slice(0, 300),\n        $('Prepare row').item.json.leadId\n      ].map(v => ({ type: \"text\", text: String(v || \"-\") }))\n    }]\n  }\n}) }}",
+        "options": {}
+      },
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "",
+          "name": "WhatsApp Cloud API token"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Website lead webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare row": {
+      "main": [
+        [
+          {
+            "node": "Save to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Google Sheet": {
+      "main": [
+        [
+          {
+            "node": "Confirm saved",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirm saved": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "pinData": {}
+}
